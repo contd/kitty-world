@@ -1,0 +1,6 @@
+{
+  "name": "Whiskers & Wonders: 2D Adventure Platformer",
+  "description": "A charming, responsive 2D platform adventure game built with Tauri v2, Phaser 3, and TypeScript. Guide a nimble cat across colorful levels, dodge quirky critters, collect golden sardines, and discover cozy secrets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,21 @@
+[package]
+name = "whiskers_adventure"
+version = "1.0.0"
+description = "A charming 2D platform adventure game built with Tauri v2, Phaser, and TypeScript"
+authors = ["Whiskers Adventure Team"]
+edition = "2021"
+
+[lib]
+name = "whiskers_adventure_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-sql = { version = "2", features = ["sqlite"] }
+tauri-plugin-fs = "2"
+tauri-plugin-dialog = "2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
