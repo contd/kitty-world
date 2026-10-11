@@ -1,6 +1,7 @@
 import React from 'react';
 import { Play, Compass, Settings, ShieldCheck, Sparkles, Smartphone } from 'lucide-react';
 import { GameSaveData } from '../persistence/types';
+import heroCover from '../assets/images/hero_cat_adventure_cover_1791735064904.jpg';
 
 interface MainMenuModalProps {
   saveData: GameSaveData | null;
@@ -23,7 +24,7 @@ export const MainMenuModal: React.FC<MainMenuModalProps> = ({
         {/* Left: Gorgeous Key Art */}
         <div className="md:w-1/2 relative bg-zinc-950 overflow-hidden min-h-[220px] md:min-h-[420px] flex items-center justify-center">
           <img
-            src="/src/assets/images/hero_cat_adventure_cover_1791735064904.jpg"
+            src={heroCover}
             alt="Whiskers Adventure Cover Key Art"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"

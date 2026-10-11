@@ -1,4 +1,7 @@
 import { LevelDefinition } from '../types';
+import bgSuburb from '../../assets/images/world1_suburban_backdrop_1791735074658.jpg';
+import bgForest from '../../assets/images/world2_forest_backdrop_1791735083342.jpg';
+import bgHarbor from '../../assets/images/world3_harbor_backdrop_1791735091455.jpg';
 
 export const GAME_LEVELS: LevelDefinition[] = [
   // ==========================================
@@ -11,7 +14,7 @@ export const GAME_LEVELS: LevelDefinition[] = [
     name: 'Sunny Rooftops',
     subtitle: 'A Gentle Paws-On Tutorial',
     theme: 'suburb',
-    backdropImage: '/src/assets/images/world1_suburban_backdrop_1791735074658.jpg',
+    backdropImage: bgSuburb,
     worldWidth: 2400,
     worldHeight: 700,
     spawnPoint: { x: 80, y: 520 },
@@ -81,7 +84,7 @@ export const GAME_LEVELS: LevelDefinition[] = [
     name: 'Cobblestone Alley',
     subtitle: 'Watch Out for Sleepy Hounds!',
     theme: 'suburb',
-    backdropImage: '/src/assets/images/world1_suburban_backdrop_1791735074658.jpg',
+    backdropImage: bgSuburb,
     worldWidth: 2800,
     worldHeight: 750,
     spawnPoint: { x: 90, y: 560 },
@@ -163,7 +166,7 @@ export const GAME_LEVELS: LevelDefinition[] = [
     name: 'Whispering Woods',
     subtitle: 'Bouncy Mushrooms & Soaring Crows',
     theme: 'forest',
-    backdropImage: '/src/assets/images/world2_forest_backdrop_1791735083342.jpg',
+    backdropImage: bgForest,
     worldWidth: 3200,
     worldHeight: 800,
     spawnPoint: { x: 90, y: 600 },
@@ -254,7 +257,7 @@ export const GAME_LEVELS: LevelDefinition[] = [
     name: 'Sunken Harbor Docks',
     subtitle: 'The Grand Maritime Challenge',
     theme: 'harbor',
-    backdropImage: '/src/assets/images/world3_harbor_backdrop_1791735091455.jpg',
+    backdropImage: bgHarbor,
     worldWidth: 3600,
     worldHeight: 800,
     spawnPoint: { x: 90, y: 580 },

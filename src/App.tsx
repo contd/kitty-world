@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Phaser from 'phaser';
 import { createGameConfig } from './game/config/gameConfig';
-import { GameScene } from './game/scenes/GameScene';
+import { GameScene, GameSceneInitData } from './game/scenes/GameScene';
 import { GAME_LEVELS } from './game/systems/LevelData';
 import { GameHUDState, LevelDefinition } from './game/types';
 import { audioSynth } from './game/systems/AudioSynthesizer';
@@ -105,50 +105,32 @@ export default function App() {
     setShowVictoryModal(false);
     setShowGameOverModal(false);
 
+    const initData: GameSceneInitData = {
+      level,
+      onHUDUpdate: (newHud: GameHUDState) => {
+        setHudState(newHud);
+        setIsPaused(newHud.isPaused);
+      },
+      onLevelComplete: (result: LevelCompletionResult) => {
+        setVictoryResult(result);
+        setShowVictoryModal(true);
+        refreshSaveData();
+      },
+      onGameOver: () => {
+        setShowGameOverModal(true);
+      },
+    };
+
+    GameScene.pendingInitData = initData;
+
     if (!phaserGameRef.current && gameContainerRef.current) {
       const config = createGameConfig(gameContainerRef.current);
       phaserGameRef.current = new Phaser.Game(config);
-    }
-
-    const scene = getGameScene();
-    if (scene) {
-      scene.scene.restart({
-        level,
-        onHUDUpdate: (newHud: GameHUDState) => {
-          setHudState(newHud);
-          setIsPaused(newHud.isPaused);
-        },
-        onLevelComplete: (result: LevelCompletionResult) => {
-          setVictoryResult(result);
-          setShowVictoryModal(true);
-          refreshSaveData();
-        },
-        onGameOver: () => {
-          setShowGameOverModal(true);
-        },
-      });
     } else {
-      // Scene is booting up via config, wait and start
-      setTimeout(() => {
-        const sc = getGameScene();
-        if (sc) {
-          sc.scene.start('GameScene', {
-            level,
-            onHUDUpdate: (newHud: GameHUDState) => {
-              setHudState(newHud);
-              setIsPaused(newHud.isPaused);
-            },
-            onLevelComplete: (result: LevelCompletionResult) => {
-              setVictoryResult(result);
-              setShowVictoryModal(true);
-              refreshSaveData();
-            },
-            onGameOver: () => {
-              setShowGameOverModal(true);
-            },
-          });
-        }
-      }, 100);
+      const scene = getGameScene();
+      if (scene) {
+        scene.scene.restart(initData);
+      }
     }
   }, [getGameScene, refreshSaveData]);
 

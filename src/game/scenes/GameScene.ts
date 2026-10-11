@@ -8,6 +8,7 @@ import { TextureGenerator } from '../systems/TextureGenerator';
 import { InputSystem } from '../systems/InputSystem';
 import { audioSynth } from '../systems/AudioSynthesizer';
 import { progressRepository, LevelCompletionResult } from '../../persistence/ProgressRepository';
+import { GAME_LEVELS } from '../systems/LevelData';
 
 export interface GameSceneInitData {
   level: LevelDefinition;
@@ -17,7 +18,9 @@ export interface GameSceneInitData {
 }
 
 export class GameScene extends Phaser.Scene {
-  private levelData!: LevelDefinition;
+  public static pendingInitData?: GameSceneInitData;
+
+  private levelData: LevelDefinition = GAME_LEVELS[0];
   public player!: Player;
   public inputSystem!: InputSystem;
 
@@ -50,11 +53,12 @@ export class GameScene extends Phaser.Scene {
     super({ key: 'GameScene' });
   }
 
-  init(data: GameSceneInitData): void {
-    this.levelData = data.level;
-    this.onHUDUpdate = data.onHUDUpdate;
-    this.onLevelComplete = data.onLevelComplete;
-    this.onGameOver = data.onGameOver;
+  init(data?: Partial<GameSceneInitData>): void {
+    const finalData = (data && data.level) ? data : (GameScene.pendingInitData || { level: GAME_LEVELS[0] });
+    this.levelData = finalData.level || GAME_LEVELS[0];
+    this.onHUDUpdate = finalData.onHUDUpdate;
+    this.onLevelComplete = finalData.onLevelComplete;
+    this.onGameOver = finalData.onGameOver;
 
     // Reset counters
     this.sardinesCollected = 0;
@@ -73,11 +77,15 @@ export class GameScene extends Phaser.Scene {
   }
 
   preload(): void {
+    if (!this.levelData) {
+      this.levelData = GameScene.pendingInitData?.level || GAME_LEVELS[0];
+    }
+
     // Generate procedural textures immediately into TextureManager
     TextureGenerator.generateAllTextures(this);
 
     // Preload background image if not cached
-    if (this.levelData.backdropImage && !this.textures.exists(`bg_${this.levelData.id}`)) {
+    if (this.levelData?.backdropImage && !this.textures.exists(`bg_${this.levelData.id}`)) {
       this.load.image(`bg_${this.levelData.id}`, this.levelData.backdropImage);
     }
   }
